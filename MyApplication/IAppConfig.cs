@@ -1,10 +1,10 @@
 ﻿using AppConfigure;
+using AppConfigure.Model.Args;
+using AppConfigure.Model.Xml;
+using AppConfigure.Model.Xml.BaseModel;
 using System.Collections.Generic;
 using System.Windows.Threading;
-using static AppConfigure.BaseModel;
-using static AppConfigure.BaseModelProgr;
-using static AppConfigure.DaikinModel;
-using static AppConfigure.Model;
+using static AppConfigure.Model.BaseModelProgr.BaseModelProgr;
 
 namespace MyApplication
 {

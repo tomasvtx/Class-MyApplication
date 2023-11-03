@@ -20,10 +20,7 @@ namespace MyApplication
         /// Asynchronně ukončuje a uvolňuje zdroje aplikace.
         /// </summary>
         /// <param name="iMyApp">Instance rozhraní IMyApp s konfigurací a dispečerem.</param>
-        public static async Task ExitResourcesAsync(MyApplication.IMyApp iMyApp)
-        {
-            await Task.Run(() => ExitResources(iMyApp));
-        }
+        public static async Task ExitResourcesAsync(MyApplication.IMyApp iMyApp) => await Task.Run(() => ExitResources(iMyApp));
 
         /// <summary>
         /// Metoda pro bezpečné ukončení a uvolnění zdrojů aplikace. Blokuje volající vlákno po dobu určenou v konstantě WaitTimeoutInSeconds.
@@ -58,9 +55,11 @@ namespace MyApplication
 
             foreach (var item in iMyApp?.AppConfig?.OracleDatabaseConfig)
             {
-                try { 
-                item.Value?.DbConnection?.Close();
-                }catch { }
+                try
+                {
+                    item.Value?.DbConnection?.Close();
+                }
+                catch { }
                 try
                 {
                     item.Value?.DbConnection?.Dispose();

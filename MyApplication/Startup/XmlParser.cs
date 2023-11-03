@@ -1,4 +1,7 @@
 ﻿using AppConfigure;
+using AppConfigure.Model.Xml;
+using AppConfigure.Model.Xml.BaseModel;
+using AppConfigure.Utils;
 using Dialogs;
 using System;
 using System.Collections.Generic;
@@ -8,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using static AppConfigure.Model.BaseModelProgr.BaseModelProgr;
 
 namespace MyApplication.Startup
 {
@@ -47,7 +51,7 @@ namespace MyApplication.Startup
         {
             iMyApp.AppConfig.AppConfiguration = new AppConfiguration();
 
-            if (!AppConfigure.ArgsCooperation.TryReadXML(out AppConfiguration AppConfigureg, out string error))
+            if (!ArgsCooperation.TryReadXML(out AppConfiguration AppConfigureg, out string error))
             {
                 // Pokud načtení XML selže, zavolá se metoda pro zpracování chyby a vrátí se False.
                 await HandleError.HandleXmlReadError(error, application);
@@ -68,19 +72,19 @@ namespace MyApplication.Startup
         internal static void InitializeBCSReaderConfiguration(IMyApp iMyApp)
         {
             // Inicializuje konfiguraci série sériových portů v aplikaci.
-            iMyApp.AppConfig.SerialPortConfig = new Dictionary<string, BaseModelProgr.SerialPortConfProg>();
+            iMyApp.AppConfig.SerialPortConfig = new Dictionary<string, SerialPortConfProg>();
 
             // Prochází všechny konfigurace sériových portů z hlavního nastavení aplikace.
             foreach (var SerialConfig in iMyApp?.AppConfig?.AppConfiguration?.SerialPort)
             {
                 // Přidá konfiguraci sériového portu do slovníku s klíčem podle popisu.
-                iMyApp?.AppConfig?.SerialPortConfig?.Add(SerialConfig.Description, new BaseModelProgr.SerialPortConfProg { SerialPortConf = SerialConfig, SerialPort = null });
+                iMyApp?.AppConfig?.SerialPortConfig?.Add(SerialConfig.Description, new SerialPortConfProg { SerialPortConf = SerialConfig, SerialPort = null });
             }
 
             // Pokud nebyl definován žádný sériový port, přidá výchozí konfiguraci "MAIN".
             if (iMyApp?.AppConfig?.SerialPortConfig?.Count == 0)
             {
-                iMyApp.AppConfig.SerialPortConfig.Add("MAIN", new BaseModelProgr.SerialPortConfProg { SerialPort = null, SerialPortConf = new BaseModel.SerialPortConf { Description = "MAIN", BcsDelay = 900, ClearBuffer = true, PortName = "COM1" } });
+                iMyApp.AppConfig.SerialPortConfig.Add("MAIN", new SerialPortConfProg { SerialPort = null, SerialPortConf = new SerialPortConf { Description = "MAIN", BcsDelay = 900, ClearBuffer = true, PortName = "COM1" } });
             }
 
         }
@@ -96,12 +100,12 @@ namespace MyApplication.Startup
         internal static async Task<bool> InitializeMainDatabase(IMyApp iMyApp, SystemInfoUtility systemInfoUtility, Application application)
         {
             // Inicializuje slovník pro konfigurace hlavní databáze aplikace.
-            iMyApp.AppConfig.OracleDatabaseConfig = new Dictionary<string, BaseModelProgr.DatabaseConfProg>();
+            iMyApp.AppConfig.OracleDatabaseConfig = new Dictionary<string, DatabaseConfProg>();
 
             // Prochází všechny konfigurace databází z hlavního nastavení aplikace a přidá je do slovníku.
             foreach (var DBConfOracle in iMyApp?.AppConfig?.AppConfiguration?.Database)
             {
-                    iMyApp?.AppConfig?.OracleDatabaseConfig.Add(DBConfOracle.Description, new BaseModelProgr.DatabaseConfProg
+                    iMyApp?.AppConfig?.OracleDatabaseConfig.Add(DBConfOracle.Description, new DatabaseConfProg
                     {
                         DatabaseConf = DBConfOracle,
                         DbConnection = OracleSQL.Tasks.OracleProvider.Get(DBConfOracle?.ConnectionString)

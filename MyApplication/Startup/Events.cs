@@ -12,9 +12,17 @@ namespace MyApplication.Startup
 {
     internal class Events
     {
-        public static IMyApp iMyApp;
+        /// <summary>
+        /// Reference na instanci třídy IMyApp pro aplikaci.
+        /// </summary>
+        internal static IMyApp iMyApp;
 
-        public static void AppAction(object sender, ExitEventArgs e)
+        /// <summary>
+        /// Obsluhuje akci ukončení aplikace.
+        /// </summary>
+        /// <param name="sender">Objekt, který vyvolal událost.</param>
+        /// <param name="e">Argumenty události ukončení aplikace.</param>
+        internal static void AppAction(object sender, ExitEventArgs e)
         {
             Logger.Tasks.LoggerPublic.LoggerTitleInternal(iMyApp, "Aplikace ukončena uživatelem", MethodBase.GetCurrentMethod(), GetState.Get(ProcessState.ReadyToExit));
 

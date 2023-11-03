@@ -1,4 +1,6 @@
 ﻿using AppConfigure;
+using AppConfigure.Enums;
+using AppConfigure.Utils;
 using Dialogs;
 using Logger;
 using Logger.Tasks;
@@ -18,7 +20,7 @@ namespace MyApplication.Startup
     {
         private static bool CheckAndShowErrorMessage(string message)
         {
-            CustomMessageBox customMessageBox = new CustomMessageBox("Aplikace není registrovaná, obraťte se na vývojáře", message + " is null", MessageBoxButton.OK);
+            CustomMessageBox customMessageBox = new CustomMessageBox("Aplikace není registrovaná, obraťte se na vývojáře", $"{message} is null", MessageBoxButton.OK);
             customMessageBox.ShowDialog();
             return false;
         }
@@ -96,7 +98,7 @@ namespace MyApplication.Startup
             application.Exit += Events.AppAction;
 
             // Inicializace utility pro informace o systému
-            AppConfigure.SystemInfoUtility systemInfoUtility = new SystemInfoUtility(iMyApp?.Resources?.AppType?.Assembly?.GetName()?.Name);
+            SystemInfoUtility systemInfoUtility = new SystemInfoUtility(iMyApp?.Resources?.AppType?.Assembly?.GetName()?.Name);
           
             // Kontrola, zda je aplikace již spuštěna
             if (systemInfoUtility.ZkontrolujBěžícíProgram() == AppRunning.Běžící)
@@ -147,10 +149,7 @@ namespace MyApplication.Startup
         /// Získá a uloží verzi .NET Framework, na které aplikace běží.
         /// </summary>
         /// <param name="iMyApp">Instance rozhraní aplikace</param>
-        static void GetDotNetVersion(IMyApp iMyApp)
-        {          
-            iMyApp.Resources.DotNetVersion = netUtilities.VerzeDotNetFrameworkuProAssembly.ZiskejVerziDotNetFrameworku(AppDomain.CurrentDomain?.FriendlyName);
-        }
+        static void GetDotNetVersion(IMyApp iMyApp) => iMyApp.Resources.DotNetVersion = netUtilities.VerzeDotNetFrameworkuProAssembly.ZiskejVerziDotNetFrameworku(AppDomain.CurrentDomain?.FriendlyName);
 
 
         /// <summary>

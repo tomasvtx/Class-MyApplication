@@ -1,4 +1,5 @@
 ﻿using AppConfigure;
+using AppConfigure.Utils;
 using Dialogs;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace MyApplication.Startup
             string appVersion = iMyApp?.Resources?.AppType?.Assembly?.GetName()?.Version.ToString();
 
             // Definice očekávaných a aktuálních argumentů aplikace.
-            string expectedArgs = "LINE=F7 POSITION=1 FULLSCREEN";
+            string expectedArgs = "FULLSCREEN";
             string currentArgs = iMyApp?.AppConfig?.Argument?.ArgumentList;
 
             // Získá konkrétní hodnoty argumentů.
