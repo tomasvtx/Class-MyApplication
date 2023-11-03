@@ -21,7 +21,7 @@ namespace MyApplication
         /// <summary>
         /// Získá  konfiguraci specifickou pro aplikaci Daikin.
         /// </summary>
-        DaikinAppConfigure DaikinAppConfig { get; set; }
+        AppConfiguration AppConfiguration { get; set; }
 
         /// <summary>
         /// Získá prioritu dispečera pro produkční úkoly aplikace.
@@ -41,7 +41,7 @@ namespace MyApplication
         /// <summary>
         /// Získá nebo nastaví konfiguraci Oracle databází aplikace.
         /// </summary>
-        Dictionary<string, DatabaseConfOracle> OracleDatabaseConfig { get; set; }
+        Dictionary<string, DatabaseConfProg> OracleDatabaseConfig { get; set; }
     }
 
 }

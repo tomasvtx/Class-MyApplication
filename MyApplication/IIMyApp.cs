@@ -22,8 +22,6 @@ namespace MyApplication
         /// Získá nebo nastaví prostředky aplikace, jako jsou viewmodel, logger atd.
         /// </summary>
         IAppResources Resources { get; set; }
-
-        bool EnableVadidatingDicz {  get; }
     }
 
 }

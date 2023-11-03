@@ -1,3 +1,5 @@
 1.0
 	20.10.2023 - Make initial release
 	21.10.2023 - Make DRY and SOLID
+	31.10.2023 - Add Databaze instance maker
+	31.10.2023 - Change Windows MessageBox to CustomMessageBox

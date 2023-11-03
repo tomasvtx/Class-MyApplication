@@ -56,6 +56,18 @@ namespace MyApplication
         {
             CancelTasks(iMyApp?.Resources?.CancellationTokenSource);
 
+            foreach (var item in iMyApp?.AppConfig?.OracleDatabaseConfig)
+            {
+                try { 
+                item.Value?.DbConnection?.Close();
+                }catch { }
+                try
+                {
+                    item.Value?.DbConnection?.Dispose();
+                }
+                catch { }
+            }
+
             foreach (var item in iMyApp?.AppConfig?.SerialPortConfig)
             {
                 CloseAndDisposeAsync(item.Value?.SerialPort);

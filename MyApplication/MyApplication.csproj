@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MyApplication</RootNamespace>
     <AssemblyName>MyApplication</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,18 +32,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AppConfigure">
-      <HintPath>..\..\..\.NET 3.5\AppConfigure\1.0\AppConfigure\bin\Release\AppConfigure.dll</HintPath>
+    <Reference Include="AppConfigure, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Class-AppConfigure\1.0\AppConfigure\bin\Release\AppConfigure.dll</HintPath>
     </Reference>
     <Reference Include="Dialogs">
-      <HintPath>..\..\Dialogs\1.0\Dialogs\bin\Release\Dialogs.dll</HintPath>
+      <HintPath>..\..\Class-Dialogs\1.0\Dialogs\bin\Release\Dialogs.dll</HintPath>
     </Reference>
-    <Reference Include="Logger">
-      <HintPath>..\..\Logger\1.0\Logger\bin\Release\Logger.dll</HintPath>
-    </Reference>
-    <Reference Include="NET Helper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Logger, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\netUtilities\1.0\NET Helper\bin\Release\NET Helper.dll</HintPath>
+      <HintPath>..\..\Class-Logger\1.0\Logger\bin\Release\Logger.dll</HintPath>
+    </Reference>
+    <Reference Include="NET Helper">
+      <HintPath>..\..\Class-NetUtilities\1.0\NET Helper\bin\Release\NET Helper.dll</HintPath>
+    </Reference>
+    <Reference Include="OracleSQL">
+      <HintPath>..\..\Class-OracleSQL\1.0\OracleSQL\bin\Release\OracleSQL.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />

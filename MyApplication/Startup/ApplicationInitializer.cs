@@ -16,6 +16,13 @@ namespace MyApplication.Startup
     /// </summary>
     public class ApplicationInitializer
     {
+        private static bool CheckAndShowErrorMessage(string message)
+        {
+            CustomMessageBox customMessageBox = new CustomMessageBox("Aplikace není registrovaná, obraťte se na vývojáře", message + " is null", MessageBoxButton.OK);
+            customMessageBox.ShowDialog();
+            return false;
+        }
+
         /// <summary>
         /// Registruje okno aplikace a notifikuje o inicializaci.
         /// </summary>
@@ -29,78 +36,64 @@ namespace MyApplication.Startup
         /// <returns>True, pokud inicializace proběhla úspěšně, jinak False</returns>
         public static async Task<bool> InitializeAppConfigurationAndResources<W,M,R,C>(IMyApp iMyApp, MyApplication.IViewModel appViewModel, StartupEventArgs startup, Application application) where W : Window, new() where M : ILogManager, new() where R : IAppResources, new() where C : IAppConfig, new()
         {
+            if (iMyApp == null)
+            {
+                return CheckAndShowErrorMessage("LogManager");
+            }
+
             Events.iMyApp = iMyApp;
             iMyApp.Resources = new R();
             iMyApp.AppConfig = new C();
 
-            application.Exit += Events.AppAction;
-
-            if (iMyApp == null)
-            {
-                MessageBox.Show("IMyApp is null");
-                return false;
-            }
             if (iMyApp?.Resources == null)
             {
-                MessageBox.Show("Resources is null");
-                return false;
+                return CheckAndShowErrorMessage("Resources");
             }
             if (appViewModel == null)
             {
-                MessageBox.Show("IViewModel is null");
-                return false;
+                return CheckAndShowErrorMessage("IViewModel");
             }
+
             iMyApp.Resources.AppViewModel = appViewModel;
+
             if (appViewModel == null)
             {
-                MessageBox.Show("AppViewModel source is null");
-                return false;
+                return CheckAndShowErrorMessage("AppViewModel");
             }
             if (iMyApp?.Resources?.AppViewModel == null)
             {
-                MessageBox.Show("AppViewModel is null");
-                return false;
+                return CheckAndShowErrorMessage("AppViewModel");
             }
             if (iMyApp?.Resources?.AppType == null)
             {
-                MessageBox.Show("AppType is null");
-                return false;
+                return CheckAndShowErrorMessage("AppType");
             }
             if (iMyApp?.Resources?.CancellationTokenSource == null)
             {
-                MessageBox.Show("CancellationTokenSource is null");
-                return false;
+                return CheckAndShowErrorMessage("CancellationTokenSource");
             }
             if (iMyApp?.Resources?.AppInstance == null)
             {
-                MessageBox.Show("AppInstance is null");
-                return false;
+                return CheckAndShowErrorMessage("AppInstance");
             }
             if (iMyApp?.Resources?.AppViewModel?.LogManager == null)
             {
-                MessageBox.Show("LogManager is null");
-                return false;
+                return CheckAndShowErrorMessage("LogManager");
             }
             if (iMyApp?.Resources?.AppViewModel?.LogManager?.LogEntries == null)
             {
-                MessageBox.Show("LogEntries is null");
-                return false;
+                return CheckAndShowErrorMessage("LogEntries");
             }
             if (iMyApp?.AppConfig == null)
             {
-                MessageBox.Show("AppConfig is null");
-                return false;
-            }
-            if (iMyApp?.EnableVadidatingDicz == null)
-            {
-                MessageBox.Show("EnableVadidatingDicz is null");
-                return false;
+                return CheckAndShowErrorMessage("AppConfig");
             }
             if (iMyApp?.AppConfig?.ProductionPriority == null)
             {
-                MessageBox.Show("ProductionPriority is null");
-                return false;
+                return CheckAndShowErrorMessage("ProductionPriority");
             }
+
+            application.Exit += Events.AppAction;
 
             // Inicializace utility pro informace o systému
             AppConfigure.SystemInfoUtility systemInfoUtility = new SystemInfoUtility(iMyApp?.Resources?.AppType?.Assembly?.GetName()?.Name);
@@ -126,7 +119,7 @@ namespace MyApplication.Startup
             Xml.InitializeBCSReaderConfiguration(iMyApp);
 
             // Získání a zpracování argumentů spuštění aplikace
-            iMyApp.AppConfig.DaikinAppConfig.GetCooperationArguments(startup.Args);
+            iMyApp.AppConfig.AppConfiguration.GetCooperationArguments(startup.Args);
           
             // Inicializace hlavní databáze a pokračuj pouze v případě úspěšné inicializace
             if (await Xml.InitializeMainDatabase(iMyApp, systemInfoUtility, application))
@@ -134,12 +127,6 @@ namespace MyApplication.Startup
               
                 // Nastavení složky pro obrázky liquidů
                 await Xml.SetImageFolder(iMyApp);
-
-                // Kontrola argumentů aplikace a ukončení aplikace v případě neplatných argumentů
-                if (!await Xml.CheckArgumentsAsync(iMyApp, systemInfoUtility, application))
-                {
-                    return false;
-                }
                
                 // Nastavení kontextu hlavního okna a spuštění časovače
                 await SetMainWindowContextAndStartTimer<W>(iMyApp);
@@ -187,7 +174,7 @@ namespace MyApplication.Startup
             iMyApp.Resources.AppDispatcherTimer = new DispatcherTimer();
 
             // Nastaví hlavní okno aplikace a konfiguraci pomocí metody NastavHlavniOkno v rámci rozhraní IDispatcher.
-            await iMyApp?.Resources?.AppWindow?.Dispatcher?.NastavHlavniOkno(iMyApp?.Resources?.AppWindow, iMyApp?.AppConfig?.DaikinAppConfig);
+            await iMyApp?.Resources?.AppWindow?.Dispatcher?.NastavHlavniOkno(iMyApp?.Resources?.AppWindow, iMyApp?.AppConfig?.AppConfiguration);
         }
     }
 }

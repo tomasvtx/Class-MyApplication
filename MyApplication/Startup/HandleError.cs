@@ -33,14 +33,12 @@ namespace MyApplication.Startup
             string currentArgs = iMyApp?.AppConfig?.Argument?.ArgumentList;
 
             // Získá konkrétní hodnoty argumentů.
-            string line = iMyApp?.AppConfig?.DaikinAppConfig?.Line;
-            int? position = iMyApp?.AppConfig?.DaikinAppConfig?.Position;
-            bool? fullscreen = iMyApp?.AppConfig?.DaikinAppConfig?.WindowConf?.Fullscreen;
+            bool? fullscreen = iMyApp?.AppConfig?.AppConfiguration?.WindowConf?.Fullscreen;
             bool? clearBuffer = iMyApp?.AppConfig?.Argument?.VyprázdnitBufferSériovéhoPortu;
             int? bcsDelay = iMyApp?.AppConfig?.Argument?.ProdlevaSériovéKomunikace;
 
             // Sestaví chybové hlášení s uvedenými informacemi.
-            string errorMessage = $"{osInfo}\n{appName} {appVersion}\nThe arguments are not set up correctly.\nFor example, set the arguments: {expectedArgs}\nActual args: {currentArgs}\nLINE: {line}\nPOSITION: {position}\nFullscreen: {fullscreen}\nCLEARBUFFER: {clearBuffer}\nBCSDELAY: {bcsDelay}";
+            string errorMessage = $"{osInfo}\n{appName} {appVersion}\nThe arguments are not set up correctly.\nFor example, set the arguments: {expectedArgs}\nActual args: {currentArgs}\nFullscreen: {fullscreen}\nCLEARBUFFER: {clearBuffer}\nBCSDELAY: {bcsDelay}";
 
             // Zobrazí chybový dialog s chybovým hlášením, tímto hlášením a dalšími relevantními informacemi.
             await await Dispatcher.CurrentDispatcher.ShowErrorDialogAsync(ErrorDialog.Description.ConfigurationError, Logger.Msg.ArgsNotValid, errorMessage, AppInstance, "App arguments", ErrorDialog.TypeMessage.Critical);
