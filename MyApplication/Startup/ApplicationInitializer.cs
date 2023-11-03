@@ -110,28 +110,28 @@ namespace MyApplication.Startup
             GetDotNetVersion(iMyApp);
 
             // Načtení hlavního nastavení aplikace a zkontroluj, zda načtení proběhlo úspěšně
-            if (!await Xml.LoadMainSettings(iMyApp, application))
+            if (!await XmlParser.LoadMainSettings(iMyApp, application))
             {
                 return false;
             }
 
             // Inicializace konfigurace BCS čtečky
-            Xml.InitializeBCSReaderConfiguration(iMyApp);
+            XmlParser.InitializeBCSReaderConfiguration(iMyApp);
 
             // Získání a zpracování argumentů spuštění aplikace
             iMyApp.AppConfig.AppConfiguration.GetCooperationArguments(startup.Args);
           
             // Inicializace hlavní databáze a pokračuj pouze v případě úspěšné inicializace
-            if (await Xml.InitializeMainDatabase(iMyApp, systemInfoUtility, application))
+            if (await XmlParser.InitializeMainDatabase(iMyApp, systemInfoUtility, application))
             {
-              
                 // Nastavení složky pro obrázky liquidů
-                await Xml.SetImageFolder(iMyApp);
-               
+                await XmlParser.SetImageFolder(iMyApp);
+                
                 // Nastavení kontextu hlavního okna a spuštění časovače
                 await SetMainWindowContextAndStartTimer<W>(iMyApp);
-              
+                
                 await await Logger.Tasks.LoggerPublic.LoggerTitleInternal(iMyApp, "", MethodBase.GetCurrentMethod(), GetState.Get(ProcessState.Done));
+
 
                 // Spustí další asynchronní úkol (PostTask).
                 await iMyApp?.PostTask();

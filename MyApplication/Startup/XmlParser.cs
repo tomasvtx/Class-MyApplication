@@ -11,7 +11,7 @@ using System.Windows.Threading;
 
 namespace MyApplication.Startup
 {
-    internal class Xml
+    internal class XmlParser
     {
         /// <summary>
         /// Nastaví složku pro obrázky na základě konfigurace aplikace. 
@@ -54,12 +54,12 @@ namespace MyApplication.Startup
                 return false;
             }
             iMyApp.AppConfig.AppConfiguration = AppConfigureg;
-
+           
             // V případě úspěšného načtení XML se vrátí True.
             return true;
         }
 
-   
+
 
         /// <summary>
         /// Inicializuje konfiguraci BCS čtečky.
@@ -101,8 +101,11 @@ namespace MyApplication.Startup
             // Prochází všechny konfigurace databází z hlavního nastavení aplikace a přidá je do slovníku.
             foreach (var DBConfOracle in iMyApp?.AppConfig?.AppConfiguration?.Database)
             {
-                iMyApp?.AppConfig?.OracleDatabaseConfig.Add(DBConfOracle.Description,new BaseModelProgr.DatabaseConfProg { DatabaseConf = DBConfOracle, DbConnection = OracleSQL.Tasks.OracleProvider.Get(DBConfOracle?.ConnectionString)
-            });
+                    iMyApp?.AppConfig?.OracleDatabaseConfig.Add(DBConfOracle.Description, new BaseModelProgr.DatabaseConfProg
+                    {
+                        DatabaseConf = DBConfOracle,
+                        DbConnection = OracleSQL.Tasks.OracleProvider.Get(DBConfOracle?.ConnectionString)
+                    });
             }
 
             // Pokud konfigurace hlavní databáze nebyla nalezena, zpracuje se chyba konfigurace.

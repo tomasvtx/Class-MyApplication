@@ -72,7 +72,7 @@
     <Compile Include="Startup\ApplicationInitializer.cs" />
     <Compile Include="Startup\Events.cs" />
     <Compile Include="Startup\HandleError.cs" />
-    <Compile Include="Startup\Xml.cs" />
+    <Compile Include="Startup\XmlParser.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
